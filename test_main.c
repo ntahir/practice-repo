@@ -155,9 +155,64 @@ int add_to_list(list_node_t* head, int val)
 
 }
 
+void encode_string(char* str)
+{
+    int offset=0;
+    int iter = 1;
+    int count = 1;
+
+    while(str[iter])
+    {
+        if(str[offset] != str[iter])
+        {
+            if(count == 1)
+            {
+                offset++;
+                iter++;
+                continue;
+
+            }
+            else
+            {
+                offset++;
+                //TODO write count instead of dummy char here. 
+                str[offset] = ((char)((int)'0') + count);
+                offset++;
+                str[offset] = str[iter];
+                iter++;
+                count = 1;
+                continue;
+            }
+        
+        }
+
+        iter++;
+        count++;
+
+    }
+    
+
+    if(count > 1)
+    {
+        offset++;
+        str[offset] = ((char)((int)'0') + count);    
+    }
+
+    offset++;
+    str[offset] = '\0';
+
+}
+
 
 int main(int argc, char** argv)
 {
+
+    char s_str[100];
+    strcpy(s_str, "caaabbzzzzzc");
+    printf("\nEncoding string: [%s]\n", s_str);
+    encode_string(s_str);
+    printf("\nEncoded string: [%s]\n", s_str);
+
     tree_node_t* bst_root;
     int numbers[] = {3,6,1,8,10,9,7,4,20,11};
 
